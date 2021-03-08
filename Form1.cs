@@ -27,6 +27,7 @@ namespace filePusher
         }
         private void GetFiles(string opath)
         {
+            lboFiles.Items.Clear();
             if (Directory.Exists(opath))
             {
                 string[] filePaths = Directory.GetFiles(opath, "*.xml", SearchOption.TopDirectoryOnly);
@@ -41,7 +42,6 @@ namespace filePusher
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            lboFiles.Items.Clear();
             GetFiles(originPath);
         }
 
@@ -66,10 +66,11 @@ namespace filePusher
                     {
                         if (File.Exists(filePaths[i]))
                         {
-                            Console.WriteLine(dpath);
+                            //Console.WriteLine(dpath);
                             var f = Path.GetFileName(filePaths[i]);
-                            Console.WriteLine(f);
+                            //Console.WriteLine(f);
                             File.Move(filePaths[i], dpath + Path.GetFileName(filePaths[i]));
+                            GetFiles(opath);
                         }
                     }
                 } else
@@ -95,6 +96,21 @@ namespace filePusher
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnCustom_Click(object sender, EventArgs e)
+        {
+            int custom;
+            custNum.DecimalPlaces = 0;
+            custNum.Value = Decimal.Round(custNum.Value, 0);
+            bool isNumber = int.TryParse(custNum.Value.ToString(), out custom);
+            if (!isNumber)
+            {
+                MessageBox.Show("Please validate your custom amount.");
+            } else
+            {
+                PushFiles((int)custNum.Value, originPath, destPath);
+            }
         }
     }
 }
