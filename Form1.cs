@@ -70,9 +70,10 @@ namespace filePusher
                             var f = Path.GetFileName(filePaths[i]);
                             //Console.WriteLine(f);
                             File.Move(filePaths[i], dpath + Path.GetFileName(filePaths[i]));
-                            GetFiles(opath);
+                            //GetFiles(opath);
                         }
                     }
+                    GetFiles(opath);
                 } else
                 {
                     MessageBox.Show("Destination Path is invalid.");
